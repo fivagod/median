@@ -15,7 +15,7 @@ export class MedianOfMedians {
 
   constructor(list: Array<number>) {
     this.list = Object.assign(new SwappableArray<number>(), list);
-    this.median = this.list[this.pivot(0, this.list.length - 1)];
+    this.median = this.list[this.select(0, this.list.length - 1, Math.floor(this.list.length / 2))];
   }
   partition5(left: number, right: number): number {
     // sort each 5 elements and find it median index
