@@ -1,0 +1,14 @@
+<h4>Dummy trick, if you've confused with array.length calculation. But very sloooow, don't do it in real life</h4>
+<ngx-prism language="javascript">
+    <pre>
+      let array = [1, 23, 14, 432, 34];
+      let arrayCopy = [...array]
+      arrayCopy.sort()
+      while(arrayCopy.length > 2) {{'{'}}
+        arrayCopy.shift()
+        arrayCopy.pop()
+      }
+      let median = (arrayCopy[0] + (arrayCopy[1] || 0)) / arrayCopy.length
+    </pre>
+  </ngx-prism>
+  
