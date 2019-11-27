@@ -1,2 +1,10 @@
 <h4>Divide and conquer in Median's world (<a href="https://brilliant.org/wiki/median-finding-algorithm/">Median of medians</a>, calculate big data without sorting)</h4>
-It's an algorithm, converted from pseudocode (Wiki) to typescript, but i think it works wrong and give very approximate value
+This algorithm based on quick search of Kth element in array. <br />
+Now implemented just a case when array has odd length. <br />
+For an even lenght we have 2 way:
+<ol>
+<li>dummy way - is find 2 values - length/2 and length/2 - 1, like we do it in simple algorithm. But we should make 2 different searches</li>
+<li>smart way - is always finding closest neihbours for out pivot.</li>
+</ol>
+Possible, in future, i'll implement second way.<br />
+BTW, checking different data, i've found that array.sort (which we use for simple methods) works wrong for arrays with length > 1 milion. i don't know why. But this method (median of medians) has the advantage only when array.length is over 1 million :)

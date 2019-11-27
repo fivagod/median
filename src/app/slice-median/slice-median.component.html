@@ -2,7 +2,7 @@
 <ngx-prism language="javascript">
   <pre>
     let array = [...[1, 23, 14, 432, 34]]
-    array.sort()
+    array.sort((a, b) => a - b)
     let splice = array.splice(Math.ceil(array.length/2) - 1, 2 - (array.length % 2))
     let median = (splice[0] + (splice[1] || 0)) / splice.length
   </pre>

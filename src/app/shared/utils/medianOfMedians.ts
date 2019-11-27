@@ -1,3 +1,7 @@
+// Does not work
+// Implemented from pseudocode
+// https://en.wikipedia.org/wiki/Median_of_medians
+
 class SwappableArray<T> extends Array<T> {
   public constructor() {
     super();

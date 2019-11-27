@@ -3,7 +3,7 @@
     <pre>
       let array = [1, 23, 14, 432, 34];
       let arrayCopy = [...array]
-      arrayCopy.sort()
+      arrayCopy.sort((a, b) => a - b)
       while(arrayCopy.length > 2) {{'{'}}
         arrayCopy.shift()
         arrayCopy.pop()

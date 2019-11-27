@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, OperatorFunction, MonoTypeOperatorFunction } from 'rxjs';
-import { tap, toArray, map } from 'rxjs/operators';
+import { Observable, Subject, OperatorFunction, MonoTypeOperatorFunction, of, from } from 'rxjs';
+import { tap, toArray, map, flatMap, concatAll, concatMap, exhaustMap, bufferCount } from 'rxjs/operators';
 
-import {MedianOfMedians} from './shared/utils/medianOfMedians';
+// import {MedianOfMedians} from './shared/utils/medianOfMedians';
+import getMedianOfMedians from './shared/utils/medianOfMedians2';
 
 import {componentStrategy} from './shared/models/algorithm.model';
 
@@ -19,6 +20,15 @@ export class ArrayHandlerService {
 
   constructor() { }
   processStrategy(strategy: componentStrategy): Observable<number> {
+    if (strategy === 'bigdata') {
+      return from(
+        getMedianOfMedians(
+          this.handle(strategy).pipe(
+            concatMap(a => (Array.isArray(a)) ? from(a) : of(a)),
+            map(a => typeof(a === 'string') ? parseInt(a, 10) : a)
+          )
+        ).then(a => a));
+    }
     const modifiers = this.getModifiers(strategy);
     return modifiers.reduce((ob: Observable<number>, op: OperatorFunction<any, any>) => ob.pipe(op), this.handle(strategy));
   }
@@ -62,7 +72,7 @@ export class ArrayHandlerService {
           // main function
           map(arr => {
             if (Array.isArray(arr)) {
-              arr.sort();
+              arr.sort((a, b) => a - b);
               const median = arr.length % 2 === 0
                 ? (arr[arr.length / 2 - 1] + arr[arr.length / 2]) / 2
                 : arr[Math.floor(arr.length / 2)];
@@ -77,7 +87,7 @@ export class ArrayHandlerService {
           // tap(val => console.log(val)),
           map(arr => {
             if (Array.isArray(arr)) {
-              arr.sort();
+              arr.sort((a, b) => a - b);
               const splice = arr.splice(Math.ceil(arr.length / 2) - 1, 2 - (arr.length % 2));
               const median = (splice[0] + (splice[1] || 0)) / splice.length;
               return median;
@@ -90,24 +100,13 @@ export class ArrayHandlerService {
           // main function
           map(arr => {
             if (Array.isArray(arr)) {
-              arr.sort();
+              arr.sort((a, b) => a - b);
               while (arr.length > 2) {
                 arr.shift();
                 arr.pop();
               }
               const median = (arr[0] + (arr[1] || 0)) / arr.length;
               return median;
-            }
-          })
-        );
-        break;
-      case 'bigdata':
-        ret.push(
-          // tap(val => console.log(val)),
-          map(arr => {
-            if (Array.isArray(arr)) {
-              const median = new MedianOfMedians(arr);
-              return median.median;
             }
           })
         );
